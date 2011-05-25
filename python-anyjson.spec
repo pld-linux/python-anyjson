@@ -47,7 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS README* THANKS TODO
+%doc README*
 
 %{py_sitescriptdir}/%{module}
 %if "%{py_ver}" > "2.4"
