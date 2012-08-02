@@ -1,12 +1,12 @@
 %define 	module	anyjson
 Summary:	JSON implementation in a common interface
 Name:		python-%{module}
-Version:	0.3.1
+Version:	0.3.3
 Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/a/%{module}/%{module}-%{version}.tar.gz
-# Source0-md5:	2b53b5d53fc40af4da7268d3c3e35a50
+# Source0-md5:	2ea28d6ec311aeeebaf993cb3008b27c
 URL:		https://bitbucket.org/runeh/anyjson
 BuildRequires:	python-distribute
 BuildRequires:	rpm-pythonprov
