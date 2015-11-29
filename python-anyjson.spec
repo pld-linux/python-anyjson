@@ -15,7 +15,7 @@ Source0:	http://pypi.python.org/packages/source/a/%{module}/%{module}-%{version}
 # Source0-md5:	2ea28d6ec311aeeebaf993cb3008b27c
 URL:		https://bitbucket.org/runeh/anyjson
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.612
+BuildRequires:	rpmbuild(macros) >= 1.710
 %if %{with python2}
 %{?with_tests:BuildRequires: python-nose}
 BuildRequires:	python-setuptools
