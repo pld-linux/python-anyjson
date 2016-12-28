@@ -8,7 +8,7 @@
 Summary:	JSON implementation in a common interface
 Name:		python-%{module}
 Version:	0.3.3
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/a/%{module}/%{module}-%{version}.tar.gz
