@@ -1,0 +1,16 @@
+Description: Do not use 2to3
+Author: Thomas Goirand <zigo@debian.org>
+Forwarded: no
+Last-Update: 2021-11-11
+
+--- python-anyjson-0.3.3.orig/setup.py
++++ python-anyjson-0.3.3/setup.py
+@@ -2,8 +2,6 @@ import os
+ import sys
+ 
+ extra = {}
+-if sys.version_info >= (3, 0):
+-    extra.update(use_2to3=True)
+ 
+ try:
+     from setuptools import setup, find_packages

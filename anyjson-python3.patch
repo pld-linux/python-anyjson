@@ -1,0 +1,69 @@
+--- anyjson-0.3.3/anyjson/__init__.py	2012-06-21 16:08:51.000000000 -0700
++++ anyjson-0.3.3/anyjson/__init__.py.new	2016-12-24 14:52:05.027940293 -0800
+@@ -1,6 +1,7 @@
+ """Wraps the best available JSON implementation available in a common
+ interface"""
+ 
++from six import (reraise, string_types)
+ import sys
+ 
+ VERSION = (0, 3, 3)
+@@ -64,9 +65,9 @@
+         self._encode_error = modinfo["encerror"]
+         self._decode_error = modinfo["decerror"]
+ 
+-        if isinstance(modinfo["encerror"], basestring):
++        if isinstance(modinfo["encerror"], string_types):
+             self._encode_error = getattr(module, modinfo["encerror"])
+-        if isinstance(modinfo["decerror"], basestring):
++        if isinstance(modinfo["decerror"], string_types):
+             self._decode_error = getattr(module, modinfo["decerror"])
+ 
+         self.name = modinfo["modname"]
+@@ -85,8 +86,8 @@
+         TypeError if the object could not be serialized."""
+         try:
+             return self._encode(data)
+-        except self._encode_error, exc:
+-            raise TypeError, TypeError(*exc.args), sys.exc_info()[2]
++        except self._encode_error as exc:
++            reraise(TypeError, TypeError(*exc.args), sys.exc_info()[2])
+     serialize = dumps
+ 
+     def loads(self, s):
+@@ -94,11 +95,11 @@
+         ValueError if the string could not be parsed."""
+         # uses StringIO to support buffer objects.
+         try:
+-            if self._filedecode and not isinstance(s, basestring):
++            if self._filedecode and not isinstance(s, string_types):
+                 return self._filedecode(StringIO(s))
+             return self._decode(s)
+-        except self._decode_error, exc:
+-            raise ValueError, ValueError(*exc.args), sys.exc_info()[2]
++        except self._decode_error as exc:
++            reraise(ValueError, ValueError(*exc.args), sys.exc_info()[2])
+     deserialize = loads
+ 
+ 
+@@ -117,8 +118,7 @@
+     # We do NOT try to load a compatible module because that may throw an
+     # exception, which renders the package uninstallable with easy_install
+     # (It trys to execfile the script when installing, to make sure it works)
+-    print "Running anyjson as a stand alone script is not supported"
+-    sys.exit(1)
++    sys.exit("Running anyjson as a stand alone script is not supported")
+ else:
+     for modspec in _modules:
+         try:
+--- anyjson-0.3.3/setup.py.orig	2012-06-22 00:59:59.000000000 +0200
++++ anyjson-0.3.3/setup.py	2023-10-14 09:40:00.000190565 +0200
+@@ -54,7 +54,7 @@ finally:
+ 
+ supported = ["yajl", "jsonlib2", "jsonlib", "simplejson",
+              "json", "django.utils.simplejson", "cjson"]
+-install_requires = []
++install_requires = ["six"]
+ for module in supported:
+     try:
+         __import__(module)

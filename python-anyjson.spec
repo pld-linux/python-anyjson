@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	tests	# do not perform "make test"
+%bcond_without	tests	# unit tests
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
 
@@ -12,21 +12,34 @@ Version:	0.3.3
 Release:	10
 License:	BSD
 Group:		Development/Languages/Python
-Source0:	http://pypi.python.org/packages/source/a/%{module}/%{module}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/a/anyjson/%{module}-%{version}.tar.gz
 # Source0-md5:	2ea28d6ec311aeeebaf993cb3008b27c
-URL:		https://bitbucket.org/runeh/anyjson
+# use six instead of 2to3 (which is no longer supported by python3 setuptools)
+Patch0:		anyjson-python3.patch
+Patch1:		anyjson-do-not-use-2to3.patch
+# raise priority of cjson and drop the 'deprecation' warning (it's about as
+# alive as half the others), drop jsonlib, jsonlib2 and django.utils.simplejson
+# (which are more dead)
+Patch2:		%{name}-update-order.patch
+URL:		https://pypi.org/project/anyjson/
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with python2}
 BuildRequires:	python-modules >= 1:2.4
-%{?with_tests:BuildRequires: python-nose}
 BuildRequires:	python-setuptools
+%if %{with tests}
+BuildRequires:	python-nose
+BuildRequires:	python-six
+%endif
 %endif
 %if %{with python3}
 BuildRequires:	python3-2to3 >= 1:3.2
 BuildRequires:	python3-modules >= 1:3.2
-%{?with_tests:BuildRequires: python3-nose}
 BuildRequires:	python3-setuptools
+%if %{with tests}
+BuildRequires:	python3-nose
+BuildRequires:	python3-six
+%endif
 %endif
 Requires:	python-modules >= 1:2.4
 BuildArch:	noarch
@@ -58,6 +71,9 @@ udostępnia jednolite API, niezależnie od używanej implementacji JSON.
 
 %prep
 %setup -q -n %{module}-%{version}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %if %{with python2}
