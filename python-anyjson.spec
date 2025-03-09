@@ -71,9 +71,9 @@ udostępnia jednolite API, niezależnie od używanej implementacji JSON.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch -P 0 -p1
+%patch -P 1 -p1
+%patch -P 2 -p1
 
 %build
 %if %{with python2}
