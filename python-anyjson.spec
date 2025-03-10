@@ -9,7 +9,7 @@ Summary:	JSON implementation in a common interface
 Summary(pl.UTF-8):	Implementacja JSON we wspólnym interfejsie
 Name:		python-%{module}
 Version:	0.3.3
-Release:	10
+Release:	11
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	https://files.pythonhosted.org/packages/source/a/anyjson/%{module}-%{version}.tar.gz
